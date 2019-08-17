@@ -21,7 +21,18 @@ export class AppComponent implements OnInit  {
 
 
       from([20,15,10,5])
-      .pipe()
+      .pipe(
+          tap( item => console.log(`emited ${item}`)),
+          map( item => item * 2),
+          map( item => item - 10),
+          map( item => {
+              if(item === 0){
+                throw new Error(`Zero`);
+              }
+              return item;
+          }),
+          take(3)
+      )
       .subscribe(
           item=> console.log(` item ${item}`),
           err => console.error(`error ${err}`),
